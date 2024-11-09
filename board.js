@@ -26,14 +26,14 @@ export default class Board {
 		this.states = [];
 
 		for (let i = 1; i < 6; i++) {
-			this.squares[i] = new Square(i, 5, false);
-			this.squares[i + 6] = new Square(i + 6, 5, false);
+			this.squares[i] = new Square(i, 5, false); // Ô 1-5
+			this.squares[i + 6] = new Square(i + 6, 5, false); // Ô 7-11
 		}
 
-		this.squares[0] = new Square(0, 10, true);
-		this.squares[6] = new Square(6, 10, true);
-		this.squares[12] = new Square(12, 0, false);
-		this.squares[13] = new Square(13, 0, false);
+		this.squares[0] = new Square(0, 10, true); // Quan trái
+		this.squares[6] = new Square(6, 10, true); // Quan phải
+		this.squares[12] = new Square(12, 0, false); // Điểm người chơi 2 || máy
+		this.squares[13] = new Square(13, 0, false); // Điểm người chơi 1
 	}
 
 	action(dir, pos) {
