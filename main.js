@@ -28,10 +28,10 @@ class StartScene extends Phaser.Scene {
 	}
 
 	preload() {
-		this.load.image("default", "/assets/default.png");
-		this.load.image("quanTrai", "/assets/quanTrai.png");
-		this.load.image("arrowRight", "/assets/arrowRight.png");
-		this.load.image("score", "/assets/score.png");
+		this.load.image("default", "./assets/default.png");
+		this.load.image("quanTrai", "./assets/quanTrai.png");
+		this.load.image("arrowRight", "./assets/arrowRight.png");
+		this.load.image("score", "./assets/score.png");
 		this.load.addFile(new WebFontFile(this.load, "Nunito"));
 	}
 
