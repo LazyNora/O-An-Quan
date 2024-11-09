@@ -1,18 +1,20 @@
 {
-  "name": "o-an-quan",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "vite": "^5.4.10"
-  },
-  "dependencies": {
-    "phaser": "^3.86.0",
-    "webfontloader": "^1.6.28"
-  }
+	"name": "o-an-quan",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
+		"deploy": "gh-pages -d dist"
+	},
+	"devDependencies": {
+		"gh-pages": "^6.2.0",
+		"vite": "^5.4.10"
+	},
+	"dependencies": {
+		"phaser": "^3.86.0",
+		"webfontloader": "^1.6.28"
+	}
 }
