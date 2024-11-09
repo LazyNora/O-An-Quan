@@ -1,3 +1,5 @@
-export default {
-	base: "/O-An-Quan/",
-};
+import { defineConfig } from "vite";
+
+export default defineConfig({
+	base: "https://lazynora.github.io/O-An-Quan/",
+});
