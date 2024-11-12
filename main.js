@@ -4,23 +4,12 @@ import Phaser from "phaser";
 import WebFontFile from "./WebFontFile";
 import Board from "./board";
 import AlphaBeta from "./AlphaBeta";
+import Minimax from "./Minimax";
 
 const sizes = {
 	width: 900,
 	height: 650,
 };
-
-// let playMode = "multi";
-// let player = 2;
-// let board = new Board();
-// let index = 0;
-// let finish = false,
-// 	raiQuan = false;
-// let difficulty = 1;
-// let click = false;
-// let pos = 0;
-// let dir = "left";
-// let drawing = false;
 
 class StartScene extends Phaser.Scene {
 	constructor() {
@@ -36,6 +25,7 @@ class StartScene extends Phaser.Scene {
 	}
 
 	create() {
+		this.Bot = "AlphaBeta";
 		this.cameras.main.setBackgroundColor("#ffffff");
 		this.add
 			.text(450, 100, "Menu", { fontSize: "50px", fill: "#000", fontFamily: "Nunito" })
@@ -51,9 +41,8 @@ class StartScene extends Phaser.Scene {
 			.on("pointerdown", () => {
 				single.setVisible(false);
 				multi.setVisible(false);
-				easy.setVisible(true);
-				medium.setVisible(true);
-				hard.setVisible(true);
+				minimax.setVisible(true);
+				alphaBeta.setVisible(true);
 				back.setVisible(true);
 			});
 		const multi = this.add
@@ -64,12 +53,42 @@ class StartScene extends Phaser.Scene {
 				this.scene.start("GameScene", { playMode: "multi", difficulty: 1 });
 			});
 
+		const minimax = this.add
+			.text(450, 200, "Minimax", { fontSize: "30px", fill: "#000", fontFamily: "Nunito" })
+			.setOrigin(0.5, 0.5)
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => {
+				this.Bot = "Minimax";
+				minimax.setVisible(false);
+				alphaBeta.setVisible(false);
+				easy.setVisible(true);
+				medium.setVisible(true);
+				hard.setVisible(true);
+				back.setVisible(true);
+			})
+			.setVisible(false);
+
+		const alphaBeta = this.add
+			.text(450, 300, "AlphaBeta", { fontSize: "30px", fill: "#000", fontFamily: "Nunito" })
+			.setOrigin(0.5, 0.5)
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => {
+				this.Bot = "AlphaBeta";
+				minimax.setVisible(false);
+				alphaBeta.setVisible(false);
+				easy.setVisible(true);
+				medium.setVisible(true);
+				hard.setVisible(true);
+				back.setVisible(true);
+			})
+			.setVisible(false);
+
 		const easy = this.add
 			.text(450, 200, "Easy", { fontSize: "30px", fill: "#000", fontFamily: "Nunito" })
 			.setOrigin(0.5, 0.5)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
-				this.scene.start("GameScene", { playMode: "single", difficulty: 1 });
+				this.scene.start("GameScene", { playMode: "single", difficulty: 1, Bot: this.Bot });
 			})
 			.setVisible(false);
 
@@ -78,7 +97,7 @@ class StartScene extends Phaser.Scene {
 			.setOrigin(0.5, 0.5)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
-				this.scene.start("GameScene", { playMode: "single", difficulty: 2 });
+				this.scene.start("GameScene", { playMode: "single", difficulty: 2, Bot: this.Bot });
 			})
 			.setVisible(false);
 
@@ -87,7 +106,7 @@ class StartScene extends Phaser.Scene {
 			.setOrigin(0.5, 0.5)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
-				this.scene.start("GameScene", { playMode: "single", difficulty: 3 });
+				this.scene.start("GameScene", { playMode: "single", difficulty: 3, Bot: this.Bot });
 			})
 			.setVisible(false);
 
@@ -98,6 +117,8 @@ class StartScene extends Phaser.Scene {
 			.on("pointerdown", () => {
 				single.setVisible(true);
 				multi.setVisible(true);
+				minimax.setVisible(false);
+				alphaBeta.setVisible(false);
 				easy.setVisible(false);
 				medium.setVisible(false);
 				hard.setVisible(false);
@@ -202,13 +223,20 @@ class GameScene extends Phaser.Scene {
 		let max = -2147483648;
 		let location = -1;
 		let dir = "left";
-		let a = this.AI.calculate(b, difficulty, alpha, beta, player);
+		let a = this.Bot_AlphaBeta.calculate(b, difficulty, alpha, beta, player);
 		if (a.score > max) {
 			max = a.score;
 			location = a.bestLocation;
 			dir = a.dir;
 		}
 		return { location, dir };
+	}
+
+	minimax(board, difficulty, player) {
+		let b = new Board();
+		b.setSquares(board.getSquares());
+		let a = this.Bot_Minimax.calculate(b, difficulty, player);
+		return { location: a.bestLocation, dir: a.dir };
 	}
 
 	init(data) {
@@ -224,7 +252,11 @@ class GameScene extends Phaser.Scene {
 		this.dir = "left";
 		this.drawing = false;
 		this.lastRunTime = undefined;
-		this.AI = new AlphaBeta();
+		this.Bot_AlphaBeta = new AlphaBeta();
+		this.Bot_Minimax = new Minimax();
+		this.Bot = data.Bot || "AlphaBeta";
+
+		console.log("Bot: ", this.Bot);
 	}
 
 	preload() {}
@@ -246,6 +278,8 @@ class GameScene extends Phaser.Scene {
 				this.playMode == "single"
 					? "Single (" +
 							(this.difficulty == 1 ? "Easy" : this.difficulty == 2 ? "Medium" : "Hard") +
+							", " +
+							this.Bot +
 							")"
 					: "Multi",
 				{ fontSize: "25px", fill: "#000", fontFamily: "Nunito" }
@@ -342,7 +376,6 @@ class GameScene extends Phaser.Scene {
 					return;
 				}
 
-				// console.log("index", this.index);
 				this.updateBanCo(this.board.getStates()[this.index], this.ocos);
 				this.index++;
 				this.lastRunTime = time;
@@ -382,7 +415,6 @@ class GameScene extends Phaser.Scene {
 				return;
 			}
 
-			// console.log("index", this.index);
 			this.updateBanCo(this.board.getStates()[this.index], this.ocos);
 			this.index++;
 			this.lastRunTime = time;
@@ -475,14 +507,18 @@ class GameScene extends Phaser.Scene {
 		this.board.setStates([]);
 		if (this.playMode == "single") {
 			if (this.player == 1) {
-				let { location, dir } = this.alphaBeta(
-					this.board,
-					this.difficulty,
-					-2147483648,
-					2147483648,
-					this.player
-				);
+				let location, dir;
+				if (this.Bot == "AlphaBeta") {
+					let a = this.alphaBeta(this.board, this.difficulty, -2147483648, 2147483648, this.player);
+					location = a.location;
+					dir = a.dir;
+				} else {
+					let a = this.minimax(this.board, this.difficulty, this.player);
+					location = a.location;
+					dir = a.dir;
+				}
 				console.log("location", location, "dir", dir);
+
 				let score = 0;
 				if (dir == "left") {
 					score = this.board.eatLeft(this.board.left(location));
