@@ -20,16 +20,18 @@ export default class OCo extends Phaser.GameObjects.Container {
 		this.pos = pos;
 		this.isQuan = isQuan;
 		this.value = value;
+		this.stones = [];
+		this.renderStone(value);
 
 		if (isQuan) {
 			this.square = scene.add.image(0, 0, "quanTrai").setOrigin(0, 0);
 			this.valueText = scene.add
-				.text(50, 100, value, {
-					fontSize: "40px",
+				.text(pos == 6 ? 10 : 90, 160 - (pos / 6) * 120, value, {
+					fontSize: "25px",
 					fill: "#000",
 					fontFamily: "Nunito",
 				})
-				.setOrigin(0.5, 0.5);
+				.setOrigin(pos == 6 ? 0 : 1, 0.5);
 
 			if (pos == 6) {
 				this.square.setFlipX(true);
@@ -52,20 +54,20 @@ export default class OCo extends Phaser.GameObjects.Container {
 			this.add(this.square);
 			this.add(this.valueText);
 		} else {
-			this.arrowRight = scene.add.image(45, 65, "arrowRight").setOrigin(0, 0).setVisible(false);
+			this.arrowRight = scene.add.image(45, 75, "arrowRight").setOrigin(0, 0).setVisible(false);
 			this.arrowLeft = scene.add
-				.image(5, 65, "arrowRight")
+				.image(5, 75, "arrowRight")
 				.setOrigin(0, 0)
 				.setFlipX(true)
 				.setVisible(false);
 			this.square = scene.add.image(0, 0, "default").setOrigin(0, 0);
 			this.valueText = scene.add
-				.text(50, 50, value, {
-					fontSize: "40px",
+				.text(90, 20, value, {
+					fontSize: "25px",
 					fill: "#000",
 					fontFamily: "Nunito",
 				})
-				.setOrigin(0.5, 0.5);
+				.setOrigin(1, 0.5);
 
 			this.add(this.arrowRight);
 			this.add(this.arrowLeft);
@@ -131,6 +133,34 @@ export default class OCo extends Phaser.GameObjects.Container {
 	setValue(value) {
 		this.value = value;
 		this.valueText.setText(value);
+		this.renderStone(value);
+	}
+
+	renderStone(value) {
+		if (this.pos == 12 || this.pos == 13) return;
+
+		let offsetX = 0,
+			offsetY = 0;
+		if (this.isQuan) {
+			offsetX = 0;
+			offsetY = 35;
+		}
+
+		this.stones.forEach((stone) => {
+			stone.destroy();
+		});
+		this.stones = [];
+		for (let i = 0; i < value; i++) {
+			let stone = this.scene.add.ellipse(
+				boundX[i] + offsetX,
+				boundY[i] + offsetY,
+				13,
+				10,
+				0x555555
+			);
+			this.stones.push(stone);
+			this.add(stone);
+		}
 	}
 
 	delegateCallback(dir) {

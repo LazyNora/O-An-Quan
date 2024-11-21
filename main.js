@@ -111,7 +111,7 @@ class StartScene extends Phaser.Scene {
 			.setVisible(false);
 
 		const back = this.add
-			.text(450, 500, "Back", { fontSize: "30px", fill: "#000", fontFamily: "Nunito" })
+			.text(450, 500, "↩ Back", { fontSize: "30px", fill: "#000", fontFamily: "Nunito" })
 			.setOrigin(0.5, 0.5)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
@@ -265,7 +265,7 @@ class GameScene extends Phaser.Scene {
 		this.cameras.main.setBackgroundColor("#ffffff");
 
 		this.add
-			.text(10, 10, "Back", { fontSize: "25px", fill: "#000", fontFamily: "Nunito" })
+			.text(10, 10, "↩ Back", { fontSize: "25px", fill: "#000", fontFamily: "Nunito" })
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
 				this.scene.start("StartScene");
