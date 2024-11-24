@@ -1,6 +1,19 @@
-import { Square } from "./board.js";
+import Board, { Square } from "./board";
 
+/**
+ * AlphaBeta class implementing the alpha-beta pruning algorithm for a game.
+ */
 export default class AlphaBeta {
+	/**
+	 * Calculates the best move using the alpha-beta pruning algorithm.
+	 *
+	 * @param {Board} board - The game board
+	 * @param {number} depth - The depth of the search
+	 * @param {number} alpha - The alpha value for alpha-beta pruning
+	 * @param {number} beta - The beta value for alpha-beta pruning
+	 * @param {1|2} player - The current player (1 or 2)
+	 * @returns {{score: number, bestLocation: number, dir: "left"|"right"}} The result object containing score, bestLocation, and direction
+	 */
 	calculate(board, depth, alpha, beta, player) {
 		if (board.ktraHetQuan(player)) {
 			// kiểm tra hết quân
@@ -8,13 +21,14 @@ export default class AlphaBeta {
 		}
 
 		let squares = board.getSquares();
+
 		let valueRoot = [];
 		for (let i = 0; i < 14; i++) {
 			// lưu giá trị các ô ban đầu
 			valueRoot[i] = squares[i].val;
 		}
-		let moves = this.generateMoves(board, player); // List các nước đi có thể đi được
 
+		let moves = this.generateMoves(board, player); // List các nước đi có thể đi được
 		let score = 0;
 		let bestLocation = -1;
 		let dir = "left";
@@ -30,8 +44,7 @@ export default class AlphaBeta {
 		} else {
 			for (let i = 0; i < moves.length; i++) {
 				// left and right
-				for (let j = 0; j < 2; j++) {
-					let action = j == 0 ? "left" : "right";
+				for (let action of ["left", "right"]) {
 					let location = board.action(action, moves[i]); // thực hiện nước đi
 					if (board.isEatable(location)) {
 						// kiểm tra có thể ăn được không
@@ -74,6 +87,13 @@ export default class AlphaBeta {
 		return { score: player == 1 ? alpha : beta, bestLocation, dir }; // trả về giá trị tốt nhất
 	}
 
+	/**
+	 * Generates possible moves for the current player.
+	 *
+	 * @param {Board} board - The game board
+	 * @param {1|2} player - The current player (1 or 2)
+	 * @returns {number[]} An array of possible move positions
+	 */
 	generateMoves(board, player) {
 		let squares = board.getSquares();
 		let result = [];

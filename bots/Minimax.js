@@ -1,6 +1,25 @@
-import { Square } from "./board.js";
+import Board, { Square } from "./board";
 
+/**
+ * The minimum value.
+ */
+const MIN = -2147483648;
+/**
+ * The maximum value.
+ */
+const MAX = 2147483648;
+
+/**
+ * Minimax class to calculate the best move for a player using the Minimax algorithm.
+ */
 export default class Minimax {
+	/**
+	 * Calculates the best move for a player using the Minimax algorithm.
+	 * @param {Board} board - The game board.
+	 * @param {number} depth - The depth of the search tree.
+	 * @param {1|2} player - The current player (1 for Max, 2 for Min).
+	 * @returns {{ bestScore: number, bestLocation: number, dir: "left"|"right" }} An object containing the best score, best location, and direction of the move.
+	 */
 	calculate(board, depth, player) {
 		if (board.ktraHetQuan(player)) {
 			// kiểm tra hết quân
@@ -8,14 +27,15 @@ export default class Minimax {
 		}
 
 		let squares = board.getSquares();
+
 		let valueRoot = [];
 		for (let i = 0; i < 14; i++) {
 			// lưu giá trị các ô ban đầu
 			valueRoot[i] = squares[i].val;
 		}
-		let moves = this.generateMoves(board, player); // List các nước đi có thể đi được
 
-		let bestScore = player == 1 ? -2147483648 : 2147483648; // Player 1: Max, Player 2: Min
+		let moves = this.generateMoves(board, player); // List các nước đi có thể đi được
+		let bestScore = player == 1 ? MIN : MAX; // Player 1: Max, Player 2: Min
 		let currentScore;
 		let bestLocation = -1;
 		let dir = "left";
@@ -30,8 +50,7 @@ export default class Minimax {
 		} else {
 			for (let i = 0; i < moves.length; i++) {
 				// left and right
-				for (let j = 0; j < 2; j++) {
-					let action = j == 0 ? "left" : "right";
+				for (let action of ["left", "right"]) {
 					let score = 0;
 					let location = board.action(action, moves[i]); // thực hiện nước đi
 					if (board.isEatable(location)) {
@@ -71,6 +90,13 @@ export default class Minimax {
 		return { bestScore, bestLocation, dir };
 	}
 
+	/**
+	 * Generates possible moves for the current player.
+	 *
+	 * @param {Board} board - The game board
+	 * @param {1|2} player - The current player (1 or 2)
+	 * @returns {number[]} An array of possible move positions
+	 */
 	generateMoves(board, player) {
 		let squares = board.getSquares();
 		let result = [];

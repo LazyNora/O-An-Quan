@@ -1,28 +1,78 @@
+/**
+ * Square class to represent a square in the board.
+ */
 export class Square {
+	/**
+	 * Square constructor
+	 * @param {number} pos - The position of the square (0-13).
+	 * @param {number} val - The value of the square.
+	 * @param {boolean} isQuan - Indicates if the square is a Quan.
+	 */
 	constructor(pos, val, isQuan) {
+		/**
+		 * @type {number} The position of the square (0-13).
+		 */
 		this.pos = pos;
+
+		/**
+		 * @type {number} The value of the square.
+		 */
 		this.val = val;
+
+		/**
+		 * @type {boolean} Indicates if the square is a Quan.
+		 */
 		this.isQuan = isQuan;
 	}
 }
 
+/**
+ * State class to represent the state of the board.
+ */
 export class State {
+	/**
+	 * State constructor
+	 * @param {Square[]} squares - The squares of the board.
+	 */
 	constructor(squares) {
+		/**
+		 * @type {Square[]} The squares of the board.
+		 */
 		this.squares = squares;
 	}
 
+	/**
+	 * Returns the squares of the board.
+	 * @returns {Square[]} The squares of the board.
+	 */
 	getState() {
 		return this.squares;
 	}
 
+	/**
+	 * Sets the squares of the board.
+	 * @param {Square[]} squares - The squares of the board.
+	 */
 	setState(squares) {
 		this.squares = squares;
 	}
 }
 
+/**
+ * Board class to represent the board of the game.
+ */
 export default class Board {
+	/**
+	 * Board constructor
+	 */
 	constructor() {
+		/**
+		 * @type {Square[]} The squares of the board.
+		 */
 		this.squares = [];
+		/**
+		 * @type {State[]} The states of the board.
+		 */
 		this.states = [];
 
 		for (let i = 1; i < 6; i++) {
@@ -36,17 +86,37 @@ export default class Board {
 		this.squares[13] = new Square(13, 0, false); // Điểm người chơi 1
 	}
 
+	/**
+	 * Makes a move on the board.
+	 * @param {"left"|"right"} dir - The direction of the move.
+	 * @param {number} pos - The position of the move.
+	 * @returns {number} The new position after the move.
+	 */
 	action(dir, pos) {
 		if (dir == "left") return this.left(pos);
 		else return this.right(pos);
 	}
 
+	/**
+	 * Eats the squares to the left or right of the move.
+	 * @param {"left"|"right"} dir
+	 * @param {number} pos - The position of the move.
+	 * @returns {number} The score of the eat.
+	 */
 	eatting(dir, pos) {
 		if (dir == "left") return this.eatLeft(pos);
 		else return this.eatRight(pos);
 	}
 
+	/**
+	 * Adapts the squares to the Square class.
+	 * @param {Square[]} squares - The squares to adapt.
+	 * @returns {Square[]} The adapted squares.
+	 */
 	adapter(squares) {
+		/**
+		 * @type {Square[]} The adapted squares.
+		 */
 		let s = [];
 		for (let i = 0; i < squares.length; i++) {
 			s[i] = new Square(squares[i].pos, squares[i].val, squares[i].isQuan);
@@ -54,6 +124,21 @@ export default class Board {
 		return s;
 	}
 
+	/**
+	 * Checks if the square is eatable.
+	 * @param {number} pos - The position of the square.
+	 * @returns {boolean} True if the square is eatable, false otherwise.
+	 */
+	isEatable(pos) {
+		if (this.squares[pos].val == 0 && (pos != 0 || pos != 6)) return true;
+		return false;
+	}
+
+	/**
+	 * Moves to the left.
+	 * @param {number} pos - The position of the move.
+	 * @returns {number} The new position after the move.
+	 */
 	left(pos) {
 		let value = this.squares[pos].val;
 		this.squares[pos].val = 0;
@@ -78,11 +163,11 @@ export default class Board {
 		else return pos--;
 	}
 
-	isEatable(pos) {
-		if (this.squares[pos].val == 0 && (pos != 0 || pos != 6)) return true;
-		return false;
-	}
-
+	/**
+	 * Moves to the right.
+	 * @param {number} pos - The position of the move.
+	 * @returns {number} The new position after the move.
+	 */
 	right(pos) {
 		let value = this.squares[pos].val;
 		this.squares[pos].val = 0;
@@ -107,6 +192,11 @@ export default class Board {
 		else return pos--; //?
 	}
 
+	/**
+	 * Eats the squares to the left.
+	 * @param {number} pos - The position of the move.
+	 * @returns {number} The score of the eat.
+	 */
 	eatLeft(pos) {
 		if (this.squares[pos].val == 0 && pos % 6 != 0) {
 			pos++;
@@ -131,6 +221,11 @@ export default class Board {
 		return 0;
 	}
 
+	/**
+	 * Eats the squares to the right.
+	 * @param {number} pos - The position of the move.
+	 * @returns {number} The score of the eat.
+	 */
 	eatRight(pos) {
 		if (this.squares[pos].val == 0 && pos % 6 != 0) {
 			pos--;
@@ -155,6 +250,10 @@ export default class Board {
 		return 0;
 	}
 
+	/**
+	 * Checks if the game is finished.
+	 * @returns {boolean} True if the game is finished, false otherwise.
+	 */
 	finish() {
 		if (this.squares[0].val == 0 && this.squares[6].val == 0) return true;
 
@@ -165,6 +264,12 @@ export default class Board {
 		return false;
 	}
 
+	/**
+	 * Checks if the move is valid.
+	 * @param {number} pos - The position of the move.
+	 * @param {1|2} player - The current player (1 or 2).
+	 * @returns {boolean} True if the move is valid, false otherwise.
+	 */
 	check(pos, player) {
 		if (player == 1) {
 			if (pos > 6 || pos < 0) return false;
@@ -179,6 +284,11 @@ export default class Board {
 		return true;
 	}
 
+	/**
+	 * Adds the score to the player.
+	 * @param {1|2} player - The current player (1 or 2).
+	 * @returns {number} The score of the player.
+	 */
 	addScore(player) {
 		let score = 0;
 		if (player == 1) {
@@ -196,6 +306,11 @@ export default class Board {
 		return score;
 	}
 
+	/**
+	 * Checks if the player has no remaining stones.
+	 * @param {1|2} player - The current player (1 or 2).
+	 * @returns {boolean} True if the player has no squares, false otherwise.
+	 */
 	ktraHetQuan(player) {
 		if (player == 1) {
 			let score = 0;
@@ -213,6 +328,11 @@ export default class Board {
 		return false;
 	}
 
+	/**
+	 * Spread the stones of the player.
+	 * @param {1|2} player - The current player (1 or 2).
+	 * @returns {number} The number of stones spreaded.
+	 */
 	raiQuan(player) {
 		if (player == 1) {
 			let score = this.squares[12].val;
@@ -257,6 +377,11 @@ export default class Board {
 		}
 	}
 
+	/**
+	 * Sets the score of the player.
+	 * @param {1|2} player - The current player (1 or 2).
+	 * @param {number} score - The score of the player.
+	 */
 	setScorePlayer(player, score) {
 		if (player == 1) {
 			this.squares[12].val += score;
@@ -268,18 +393,34 @@ export default class Board {
 		this.states.push(state);
 	}
 
+	/**
+	 * Returns the squares of the board.
+	 * @returns {Square[]} The squares of the board.
+	 */
 	getSquares() {
 		return this.squares;
 	}
 
+	/**
+	 * Sets the squares of the board.
+	 * @param {Square[]} squares - The squares of the board.
+	 */
 	setSquares(squares) {
 		this.squares = squares;
 	}
 
+	/**
+	 * Returns the states of the board.
+	 * @returns {State[]} The states of the board.
+	 */
 	getStates() {
 		return this.states;
 	}
 
+	/**
+	 * Sets the states of the board.
+	 * @param {State[]} states - The states of the board.
+	 */
 	setStates(states) {
 		this.states = states;
 	}

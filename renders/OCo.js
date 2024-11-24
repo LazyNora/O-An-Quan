@@ -13,15 +13,65 @@ const boundY = [
 	78, 34, 48, 67, 52, 29,
 ];
 
+/**
+ * OCo class for rendering a square in the game
+ */
 export default class OCo extends Phaser.GameObjects.Container {
+	/**
+	 * Constructor for the OCo class
+	 * @param {Phaser.Scene} scene - The scene to add the container to
+	 * @param {number} x - The x position of the container
+	 * @param {number} y - The y position of the container
+	 * @param {number} value - The value of the square
+	 * @param {number} pos - The position of the square
+	 * @param {boolean} isQuan - Whether the square is a quan or not
+	 * @param {function} callbackLeft - The callback function for the left arrow
+	 * @param {function} callbackRight - The callback function for the right arrow
+	 */
 	constructor(scene, x, y, value, pos, isQuan, callbackLeft = null, callbackRight = null) {
 		super(scene, x, y);
 
+		/**
+		 * @type {number} The position of the square
+		 */
 		this.pos = pos;
+		/**
+		 * @type {boolean} Whether the square is a quan or not
+		 */
 		this.isQuan = isQuan;
+		/**
+		 * @type {number} The value of the square
+		 */
 		this.value = value;
+		/**
+		 * @type {Phaser.GameObjects.Image[]} The stones in the square
+		 */
 		this.stones = [];
 		this.renderStone(value);
+		/**
+		 * @type {Phaser.GameObjects.Image} The square image
+		 */
+		this.square = null;
+		/**
+		 * @type {Phaser.GameObjects.Text} The text displaying the value of the square
+		 */
+		this.valueText = null;
+		/**
+		 * @type {Phaser.GameObjects.Image} The right arrow image
+		 */
+		this.arrowRight = null;
+		/**
+		 * @type {Phaser.GameObjects.Image} The left arrow image
+		 */
+		this.arrowLeft = null;
+		/**
+		 * @type {function} The callback function for the left arrow
+		 */
+		this.callbackLeft = null;
+		/**
+		 * @type {function} The callback function for the right arrow
+		 */
+		this.callbackRight = null;
 
 		if (isQuan) {
 			this.square = scene.add.image(0, 0, "quanTrai").setOrigin(0, 0);
@@ -130,12 +180,20 @@ export default class OCo extends Phaser.GameObjects.Container {
 		}
 	}
 
+	/**
+	 * Set the value of the square and render the stones
+	 * @param {number} value - The value of the square
+	 */
 	setValue(value) {
 		this.value = value;
 		this.valueText.setText(value);
 		this.renderStone(value);
 	}
 
+	/**
+	 * Render the stones in the square based on the value
+	 * @param {number} value - The value of the square
+	 */
 	renderStone(value) {
 		if (this.pos == 12 || this.pos == 13) return;
 
@@ -163,6 +221,10 @@ export default class OCo extends Phaser.GameObjects.Container {
 		}
 	}
 
+	/**
+	 * Delegate the callback function based on the direction
+	 * @param {"left"|"right"} dir - The direction of the callback
+	 */
 	delegateCallback(dir) {
 		if (dir == "left") {
 			this.callbackLeft();
