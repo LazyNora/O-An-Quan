@@ -127,7 +127,7 @@ class StartScene extends Phaser.Scene {
 			.setVisible(false);
 	}
 
-	update(time, delta) {}
+	update(time, delta) { }
 }
 
 class EndScene extends Phaser.Scene {
@@ -141,7 +141,7 @@ class EndScene extends Phaser.Scene {
 		this.playMode = data.playMode;
 	}
 
-	preload() {}
+	preload() { }
 
 	create() {
 		this.cameras.main.setBackgroundColor("#ffffff");
@@ -203,7 +203,7 @@ class EndScene extends Phaser.Scene {
 			});
 	}
 
-	update(time, delta) {}
+	update(time, delta) { }
 }
 
 class GameScene extends Phaser.Scene {
@@ -259,7 +259,7 @@ class GameScene extends Phaser.Scene {
 		console.log("Bot: ", this.Bot);
 	}
 
-	preload() {}
+	preload() { }
 
 	create() {
 		this.cameras.main.setBackgroundColor("#ffffff");
@@ -277,10 +277,10 @@ class GameScene extends Phaser.Scene {
 				10,
 				this.playMode == "single"
 					? "Single (" +
-							(this.difficulty == 1 ? "Easy" : this.difficulty == 2 ? "Medium" : "Hard") +
-							", " +
-							this.Bot +
-							")"
+					(this.difficulty == 1 ? "Easy" : this.difficulty == 2 ? "Medium" : "Hard") +
+					", " +
+					this.Bot +
+					")"
 					: "Multi",
 				{ fontSize: "25px", fill: "#000", fontFamily: "Nunito" }
 			)
