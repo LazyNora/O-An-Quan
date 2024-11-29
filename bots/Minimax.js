@@ -57,7 +57,9 @@ export default class Minimax {
 						// kiểm tra có thể ăn được không
 						score = board.eatting(action, location); // ăn
 					}
-
+					console.log(moves)
+					console.log("Vị trí: " + moves[i] + " Hướng: " + action + " Điểm: " + score + " Pos" + location)
+					console.table(board.squares)
 					if (player == 1) {
 						// max
 						board.setScorePlayer(player, score); // cập nhật điểm
@@ -89,7 +91,6 @@ export default class Minimax {
 		}
 		return { bestScore, bestLocation, dir };
 	}
-
 	/**
 	 * Generates possible moves for the current player.
 	 *

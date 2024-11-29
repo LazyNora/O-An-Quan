@@ -51,7 +51,9 @@ export default class AlphaBeta {
 						let scoreSave = board.eatting(action, location); // ăn
 						board.setScorePlayer(player, scoreSave); // cập nhật điểm
 					}
-
+					console.log(moves)
+					console.log("Vị trí: " + moves[i] + " Hướng: " + action + " Điểm: " + squares[12].val + " Pos" + location)
+					console.table(board.squares)
 					if (player == 1) {
 						// max
 						score = this.calculate(board, depth - 1, alpha, beta, 2).score; // gọi đệ quy
@@ -79,7 +81,6 @@ export default class AlphaBeta {
 					}
 					board.setSquares(squares);
 				}
-
 				if (alpha >= beta) break; // cắt tỉa
 			}
 		}

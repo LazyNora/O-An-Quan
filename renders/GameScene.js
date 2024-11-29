@@ -150,12 +150,25 @@ export default class GameScene extends Phaser.Scene {
 	create() {
 		this.cameras.main.setBackgroundColor("#ffffff");
 
-		this.add
-			.text(10, 10, "↩ Back", { fontSize: "25px", fill: "#000", fontFamily: "Nunito" })
+		const backGraphics = this.add.graphics();
+		backGraphics.lineStyle(2, 0xFFFFFF, 1); // Set border color to white and thickness to 2px
+		backGraphics.fillStyle(0xAE445A, 1); // Set background color to red
+		backGraphics.strokeRoundedRect(5, 5, 100, 50, 10); // Draw rounded rectangle border with border radius 10px
+		backGraphics.fillRoundedRect(5, 5, 100, 50, 10); // Fill rounded rectangle with border radius 10px
+		backGraphics.setAlpha(1); // Ensure the background is visible
+
+		const back = this.add
+			.text(55, 30, "↩ Back", {
+				fontSize: "25px",
+				fill: "#FFFFFF", // Set text color to white
+				fontFamily: "Nunito"
+			})
+			.setOrigin(0.5, 0.5)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
 				this.scene.start("StartScene");
-			});
+			})
+			.setVisible(true); // Ensure the text is visible
 
 		this.add
 			.text(

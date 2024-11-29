@@ -13,8 +13,9 @@
 #gameCanvas {
 	width: 900px;
 	height: 650px;
-	border: 1px solid red;
+	border: 1px solid #1A1A1D;
 	background-color: white;
+	border-radius: 10px;
 }
 
 body {
@@ -29,12 +30,22 @@ body {
 
 .header {
 	text-align: center;
+	font-size: x-large;
+
+	h1 {
+		font-size: 72px;
+		background: -webkit-linear-gradient(45deg, #09009f, #00ff95 80%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
 }
+
 .main {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
+
 .footer {
 	text-align: right;
 }
