@@ -41,17 +41,17 @@ export default class EndScene extends Phaser.Scene {
 	create() {
 		this.cameras.main.setBackgroundColor("#ffffff");
 		this.add
-			.text(450, 100, "Game Over", { fontSize: "50px", fill: "#000", fontFamily: "Nunito" })
+			.text(450, 100, "Game Over  ", { fontSize: "50px", fill: "#AE445A", fontFamily: "Nunito", fontStyle: "italic" })
 			.setOrigin(0.5, 0.5);
 
 		let msg1 = "",
 			msg2 = "";
 		if (this.score1 > this.score2) {
-			msg1 = "WIN";
-			msg2 = "LOSE";
+			msg1 = "WIN 🥇";
+			msg2 = "LOSE 🐔";
 		} else if (this.score1 < this.score2) {
-			msg1 = "LOSE";
-			msg2 = "WIN";
+			msg1 = "LOSE 🐔";
+			msg2 = "WIN 🥇";
 		} else {
 			msg1 = "DRAW";
 			msg2 = "DRAW";
@@ -59,14 +59,14 @@ export default class EndScene extends Phaser.Scene {
 
 		if (this.playMode == "single") {
 			this.add
-				.text(450, 200, "Computer: " + this.score1 + "(" + msg1 + ")", {
+				.text(450, 200, "Computer: " + this.score1 + " (" + msg1 + ")", {
 					fontSize: "30px",
 					fill: "#000",
 					fontFamily: "Nunito",
 				})
 				.setOrigin(0.5, 0.5);
 			this.add
-				.text(450, 300, "You: " + this.score2 + "(" + msg2 + ")", {
+				.text(450, 300, "You: " + this.score2 + " (" + msg2 + ")", {
 					fontSize: "30px",
 					fill: "#000",
 					fontFamily: "Nunito",
@@ -74,14 +74,14 @@ export default class EndScene extends Phaser.Scene {
 				.setOrigin(0.5, 0.5);
 		} else {
 			this.add
-				.text(450, 200, "Player 2: " + this.score1 + "(" + msg1 + ")", {
+				.text(450, 200, "Player 2: " + this.score1 + " (" + msg1 + ")", {
 					fontSize: "30px",
 					fill: "#000",
 					fontFamily: "Nunito",
 				})
 				.setOrigin(0.5, 0.5);
 			this.add
-				.text(450, 300, "Player 1: " + this.score2 + "(" + msg2 + ")", {
+				.text(450, 300, "Player 1: " + this.score2 + " (" + msg2 + ")", {
 					fontSize: "30px",
 					fill: "#000",
 					fontFamily: "Nunito",
@@ -89,8 +89,27 @@ export default class EndScene extends Phaser.Scene {
 				.setOrigin(0.5, 0.5);
 		}
 
-		this.add
-			.text(450, 500, "Play again", { fontSize: "30px", fill: "#000", fontFamily: "Nunito" })
+
+		let winner = "computer"; // or "player"
+
+		// Determine the message based on the winner
+		let message = winner === "computer" ? "Găm ba đê 🦾" : "Congratulations 👏";
+
+		// Display the result message
+		const resultText = this.add
+			.text(450, 425, message, { fontSize: "35px", fill: "#1B1833", fontFamily: "Nunito" }) // Adjusted position and color
+			.setOrigin(0.5, 0.5);
+
+		// Create the rounded rectangle for the "Play again" button
+		const backGraphics = this.add.graphics();
+		backGraphics.lineStyle(2, 0xAE445A, 1); // Set border color to white and thickness to 2px
+		backGraphics.fillStyle(0xAE445A, 1); // Set background color to red
+		backGraphics.strokeRoundedRect(350, 485, 200, 50, 10); // Draw rounded rectangle border with border radius 10px
+		backGraphics.fillRoundedRect(350, 485, 200, 50, 10); // Fill rounded rectangle with border radius 10px
+
+		// Display the "Play again" button
+		const playAgainText = this.add
+			.text(450, 510, "Play again ◀", { fontSize: "30px", fill: "#FFF", fontFamily: "Nunito" }) // Adjusted position and color
 			.setOrigin(0.5, 0.5)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {

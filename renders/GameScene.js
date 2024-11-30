@@ -136,7 +136,7 @@ export default class GameScene extends Phaser.Scene {
 		/**
 		 * @type {number} - The step time of the game.
 		 */
-		this.stepTime = 500;
+		this.stepTime = 100;
 	}
 
 	/**

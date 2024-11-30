@@ -80,16 +80,19 @@ export default class Minimax {
 						}
 					}
 
-					for (let k = 0; k < 14; k++) {
-						// reset lại giá trị các ô
-						if (k == 0 || k == 6) squares[k] = new Square(k, valueRoot[k], true);
-						else squares[k] = new Square(k, valueRoot[k], false);
-					}
+					this.resetSquare(squares, valueRoot);
 					board.setSquares(squares);
 				}
 			}
 		}
 		return { bestScore, bestLocation, dir };
+	}
+	resetSquare(squares, valueRoot) {
+		for (let k = 0; k < 14; k++) {
+			// reset lại giá trị các ô
+			if (k == 0 || k == 6) squares[k] = new Square(k, valueRoot[k], true);
+			else squares[k] = new Square(k, valueRoot[k], false);
+		}
 	}
 	/**
 	 * Generates possible moves for the current player.

@@ -51,9 +51,9 @@ export default class AlphaBeta {
 						let scoreSave = board.eatting(action, location); // ăn
 						board.setScorePlayer(player, scoreSave); // cập nhật điểm
 					}
-					console.log(moves)
-					console.log("Vị trí: " + moves[i] + " Hướng: " + action + " Điểm: " + squares[12].val + " Pos" + location)
-					console.table(board.squares)
+					// console.log(moves)
+					// console.log("Vị trí: " + moves[i] + " Hướng: " + action + " Điểm: " + squares[12].val + " Pos" + location)
+					// console.table(board.squares)
 					if (player == 1) {
 						// max
 						score = this.calculate(board, depth - 1, alpha, beta, 2).score; // gọi đệ quy
@@ -73,12 +73,8 @@ export default class AlphaBeta {
 							dir = action;
 						}
 					}
+					this.resetSquare(squares, valueRoot); // reset lại giá trị các ô
 
-					for (let k = 0; k < 14; k++) {
-						// reset lại giá trị các ô
-						if (k == 0 || k == 6) squares[k] = new Square(k, valueRoot[k], true);
-						else squares[k] = new Square(k, valueRoot[k], false);
-					}
 					board.setSquares(squares);
 				}
 				if (alpha >= beta) break; // cắt tỉa
@@ -87,7 +83,13 @@ export default class AlphaBeta {
 
 		return { score: player == 1 ? alpha : beta, bestLocation, dir }; // trả về giá trị tốt nhất
 	}
-
+	resetSquare(squares, valueRoot) {
+		for (let k = 0; k < 14; k++) {
+			// reset lại giá trị các ô
+			if (k == 0 || k == 6) squares[k] = new Square(k, valueRoot[k], true);
+			else squares[k] = new Square(k, valueRoot[k], false);
+		}
+	}
 	/**
 	 * Generates possible moves for the current player.
 	 *
