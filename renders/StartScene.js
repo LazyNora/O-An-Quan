@@ -72,7 +72,7 @@ export default class StartScene extends Phaser.Scene {
 
 		const singleGraphics = this.add.graphics();
 		singleGraphics.lineStyle(2, 0x000000, 1); // Set border color to black and thickness to 2px
-		singleGraphics.fillStyle(0x3dd1e7, 1); // Set background color to red
+		singleGraphics.fillStyle(0x4b4376, 1); // Set background color to #4b4376
 		singleGraphics.strokeRoundedRect(350, 185, 200, 50, 10); // Draw rounded rectangle border with border radius 10px
 		singleGraphics.fillRoundedRect(350, 185, 200, 50, 10); // Fill rounded rectangle with border radius 10px
 		singleGraphics.setAlpha(0); // Initially hide the border by setting alpha to 0
@@ -100,31 +100,27 @@ export default class StartScene extends Phaser.Scene {
 				level.setVisible(false);
 			})
 			.on("pointerover", () => {
+				single.setStyle({ fill: "#FFF" }); // Change text color to white
 				this.tweens.add({
 					targets: singleGraphics,
 					alpha: 1,
 					duration: 500, // Duration of the fade-in effect in milliseconds
 					ease: "Power2",
-					onComplete: () => {
-						singleGraphics.setVisible(true); // Ensure visibility is set to true after fade-in
-					},
 				});
 			})
 			.on("pointerout", () => {
+				single.setStyle({ fill: "#000" }); // Change text color back to black
 				this.tweens.add({
 					targets: singleGraphics,
 					alpha: 0,
 					duration: 500, // Duration of the fade-out effect in milliseconds
 					ease: "Power2",
-					onComplete: () => {
-						singleGraphics.setVisible(false); // Ensure visibility is set to false after fade-out
-					},
 				});
 			});
 
 		const multiGraphics = this.add.graphics();
 		multiGraphics.lineStyle(2, 0x000000, 1); // Set border color to black and thickness to 2px
-		multiGraphics.fillStyle(0x3dd1e7, 1); // Set background color to red
+		multiGraphics.fillStyle(0x432E54, 1); // Set background color to red
 		multiGraphics.strokeRoundedRect(350, 280, 200, 50, 10); // Draw rounded rectangle border with border radius 10px
 		multiGraphics.fillRoundedRect(350, 280, 200, 50, 10); // Fill rounded rectangle with border radius 10px
 		multiGraphics.setAlpha(0); // Initially hide the border by setting alpha to 0
@@ -143,6 +139,7 @@ export default class StartScene extends Phaser.Scene {
 				this.scene.start("GameScene", { playMode: "multi", difficulty: 1 });
 			})
 			.on("pointerover", () => {
+				multi.setStyle({ fill: "#FFF" });
 				this.tweens.add({
 					targets: multiGraphics,
 					alpha: 1,
@@ -151,6 +148,7 @@ export default class StartScene extends Phaser.Scene {
 				});
 			})
 			.on("pointerout", () => {
+				multi.setStyle({ fill: "#000" });
 				this.tweens.add({
 					targets: multiGraphics,
 					alpha: 0,
@@ -181,7 +179,7 @@ export default class StartScene extends Phaser.Scene {
 
 		const minimaxGraphics = this.add.graphics();
 		minimaxGraphics.lineStyle(2, 0x000000, 1); // Set border color to black and thickness to 2px
-		minimaxGraphics.fillStyle(0x3dd1e7, 1); // Set background color to red
+		minimaxGraphics.fillStyle(0x4b4376, 1); // Set background color to #4b4376
 		minimaxGraphics.strokeRoundedRect(350, 185, 200, 50, 10); // Draw rounded rectangle border with border radius 10px
 		minimaxGraphics.fillRoundedRect(350, 185, 200, 50, 10); // Fill rounded rectangle with border radius 10px
 		minimaxGraphics.setAlpha(0); // Initially hide the border by setting alpha to 0
@@ -221,7 +219,7 @@ export default class StartScene extends Phaser.Scene {
 
 		const alphaBetaGraphics = this.add.graphics();
 		alphaBetaGraphics.lineStyle(2, 0x000000, 1); // Set border color to black and thickness to 2px
-		alphaBetaGraphics.fillStyle(0x3dd1e7, 1); // Set background color
+		alphaBetaGraphics.fillStyle(0x4b4376, 1); // Set background color to #4b4376
 		alphaBetaGraphics.strokeRoundedRect(350, 280, 200, 50, 10); // Draw rounded rectangle border with border radius 10px
 		alphaBetaGraphics.fillRoundedRect(350, 280, 200, 50, 10); // Fill rounded rectangle with border radius 10px
 		alphaBetaGraphics.setAlpha(0); // Initially hide the border by setting alpha to 0
@@ -259,7 +257,7 @@ export default class StartScene extends Phaser.Scene {
 
 		const easyGraphics = this.add.graphics();
 		easyGraphics.lineStyle(2, 0x000000, 1); // Set border color to black and thickness to 2px
-		easyGraphics.fillStyle(0x3dd1e7, 1); // Set background color to red
+		easyGraphics.fillStyle(0x4b4376, 1); // Set background color to #4b4376
 		easyGraphics.strokeRoundedRect(350, 185, 200, 50, 10); // Draw rounded rectangle border with border radius 10px
 		easyGraphics.fillRoundedRect(350, 185, 200, 50, 10); // Fill rounded rectangle with border radius 10px
 		easyGraphics.setAlpha(0); // Initially hide the border by setting alpha to 0
@@ -291,7 +289,7 @@ export default class StartScene extends Phaser.Scene {
 
 		const mediumGraphics = this.add.graphics();
 		mediumGraphics.lineStyle(2, 0x000000, 1); // Set border color to black and thickness to 2px
-		mediumGraphics.fillStyle(0x3dd1e7, 1); // Set background color to red
+		mediumGraphics.fillStyle(0x4b4376, 1); // Set background color to #4b4376
 		mediumGraphics.strokeRoundedRect(350, 285, 200, 50, 10); // Draw rounded rectangle border with border radius 10px
 		mediumGraphics.fillRoundedRect(350, 285, 200, 50, 10); // Fill rounded rectangle with border radius 10px
 		mediumGraphics.setAlpha(0); // Initially hide the border by setting alpha to 0
@@ -323,7 +321,7 @@ export default class StartScene extends Phaser.Scene {
 
 		const hardGraphics = this.add.graphics();
 		hardGraphics.lineStyle(2, 0x000000, 1); // Set border color to black and thickness to 2px
-		hardGraphics.fillStyle(0x3dd1e7, 1); // Set background color to red
+		hardGraphics.fillStyle(0x4b4376, 1); // Set background color to #4b4376
 		hardGraphics.strokeRoundedRect(350, 385, 200, 50, 10); // Draw rounded rectangle border with border radius 10px
 		hardGraphics.fillRoundedRect(350, 385, 200, 50, 10); // Fill rounded rectangle with border radius 10px
 		hardGraphics.setAlpha(0); // Initially hide the border by setting alpha to 0
